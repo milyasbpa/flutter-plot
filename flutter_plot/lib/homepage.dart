@@ -45,26 +45,61 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       title: Text(widget.title),
+  //     ),
+  //     body: Center(
+  //         child: Container(
+  //             color: Colors.grey.shade300,
+  //             child: Obx(() => CustomPaint(
+  //                   painter: MasterPainter(
+  //                       annotations: widget.counterController.annotations,
+  //                       image: imageCanvas),
+  //                   size: const Size(300, 400),
+  //                 )))),
+  //     floatingActionButton: FloatingActionButton(
+  //       onPressed: () => Get.toNamed('/profile'),
+  //       tooltip: 'Increment',
+  //       child: const Icon(Icons.add),
+  //     ),
+  //   );
+  // }
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-          child: Container(
-              color: Colors.grey.shade300,
-              child: Obx(() => CustomPaint(
-                    painter: MasterPainter(
-                        annotations: widget.counterController.annotations,
-                        image: imageCanvas),
-                    size: const Size(300, 400),
-                  )))),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.toNamed('/profile'),
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
+    return FutureBuilder(
+        future: loadImage('assets/photo.jpg'),
+        builder: (BuildContext context, AsyncSnapshot<ui.Image> snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return const Text('Image loading...');
+            default:
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text(widget.title),
+                  ),
+                  body: Center(
+                      child: Container(
+                          color: Colors.grey.shade300,
+                          child: Obx(() => CustomPaint(
+                                painter: MasterPainter(
+                                    annotations:
+                                        widget.counterController.annotations,
+                                    image: snapshot.data!),
+                                size: const Size(300, 400),
+                              )))),
+                  floatingActionButton: FloatingActionButton(
+                    onPressed: () => Get.toNamed('/profile'),
+                    tooltip: 'Increment',
+                    child: const Icon(Icons.add),
+                  ),
+                );
+              }
+          }
+        });
   }
 }
 
