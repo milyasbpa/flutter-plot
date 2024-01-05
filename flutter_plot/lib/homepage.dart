@@ -87,46 +87,77 @@ class MasterPainter extends CustomPainter {
     }
 
     if (annotationsData != null && annotationsData.isNotEmpty) {
-      // ui.Image? image = imageInfoNotifier.value;
-      // Paint painting = Paint();
-      // if (image != null) {
-      //   canvas.drawImage(image, Offset.zero, painting);
-      // }
+      // inflammations
+      final inflammations = annotationsData[0].inflammations;
+      for (var inflammationsIndex = 0;
+          inflammationsIndex < inflammations.length;
+          inflammationsIndex++) {
+        Paint paint = Paint();
+        paint.strokeWidth = 1;
+        paint.color = Colors.red;
+        paint.style = PaintingStyle.stroke;
+        final boundary = inflammations[inflammationsIndex].boundary;
+        final moveToCoordinate = boundary[0];
 
-      // final pigmentations = annotations[0].pigmentations;
-      // for (var pigmentationIndex = 0;
-      //     pigmentationIndex < pigmentations.length;
-      //     pigmentationIndex++) {
-      //   Paint paint = Paint();
-      //   paint.strokeWidth = 1;
-      //   paint.color = Colors.red;
-      //   paint.style = PaintingStyle.stroke;
-      //   final boundary = pigmentations[pigmentationIndex].boundary;
-      //   final moveToCoordinate = boundary[0];
+        List<double> firstCoordinate = [
+          (1 - moveToCoordinate[1]) * size.width,
+          moveToCoordinate[0] * size.height,
+        ];
+        Path path = Path();
+        if (boundary.isNotEmpty) {
+          for (var boundaryIndex = 1;
+              boundaryIndex < boundary.length;
+              boundaryIndex++) {
+            path.moveTo(firstCoordinate[0], firstCoordinate[1]);
 
-      //   List<double> firstCoordinate = [
-      //     (1 - moveToCoordinate[1]) * size.width,
-      //     moveToCoordinate[0] * size.height,
-      //   ];
-      //   Path path = Path();
-      //   if (boundary.isNotEmpty) {
-      //     for (var boundaryIndex = 1;
-      //         boundaryIndex < boundary.length;
-      //         boundaryIndex++) {
-      //       path.moveTo(firstCoordinate[0], firstCoordinate[1]);
+            final nextCoordinate = [
+              (1 - boundary[boundaryIndex][1]) * size.width,
+              boundary[boundaryIndex][0] * size.height,
+            ];
+            path.lineTo(nextCoordinate[0], nextCoordinate[1]);
 
-      //       final nextCoordinate = [
-      //         (1 - boundary[boundaryIndex][1]) * size.width,
-      //         boundary[boundaryIndex][0] * size.height,
-      //       ];
-      //       path.lineTo(nextCoordinate[0], nextCoordinate[1]);
+            // Get.log('${nextCoordinate[0]} ${nextCoordinate[1]} ini boundary index');
+          }
+        }
+        canvas.drawPath(path, paint);
+      }
 
-      //       // Get.log('${nextCoordinate[0]} ${nextCoordinate[1]} ini boundary index');
-      //     }
-      //   }
-      //   canvas.drawPath(path, paint);
-      // }
+      // pigmentations
+      final pigmentations = annotationsData[0].pigmentations;
+      for (var pigmentationIndex = 0;
+          pigmentationIndex < pigmentations.length;
+          pigmentationIndex++) {
+        Paint paint = Paint();
+        paint.strokeWidth = 1;
+        paint.color = Colors.red;
+        paint.style = PaintingStyle.stroke;
+        final boundary = pigmentations[pigmentationIndex].boundary;
+        final moveToCoordinate = boundary[0];
 
+        List<double> firstCoordinate = [
+          (1 - moveToCoordinate[1]) * size.width,
+          moveToCoordinate[0] * size.height,
+        ];
+        Path path = Path();
+        if (boundary.isNotEmpty) {
+          for (var boundaryIndex = 1;
+              boundaryIndex < boundary.length;
+              boundaryIndex++) {
+            path.moveTo(firstCoordinate[0], firstCoordinate[1]);
+
+            final nextCoordinate = [
+              (1 - boundary[boundaryIndex][1]) * size.width,
+              boundary[boundaryIndex][0] * size.height,
+            ];
+            path.lineTo(nextCoordinate[0], nextCoordinate[1]);
+
+            // Get.log('${nextCoordinate[0]} ${nextCoordinate[1]} ini boundary index');
+          }
+        }
+        canvas.drawPath(path, paint);
+      }
+
+      // sebums
       final sebums = annotationsData[0].sebums;
       for (var sebumIndex = 0; sebumIndex < sebums.length; sebumIndex++) {
         Paint paint = Paint();
@@ -160,6 +191,47 @@ class MasterPainter extends CustomPainter {
 
             Get.log(
                 '$sebumIndex ${nextCoordinate[0]} ${nextCoordinate[1]} ini boundary index');
+          }
+          canvas.drawPath(path, paint);
+        }
+      }
+
+      // wrinkles
+      final wrinkles = annotationsData[0].wrinkles;
+      for (var wrinklesIndex = 0;
+          wrinklesIndex < wrinkles.length;
+          wrinklesIndex++) {
+        Paint paint = Paint();
+        paint.strokeWidth = 1;
+        paint.color = Colors.black;
+        paint.style = PaintingStyle.stroke;
+        paint.strokeJoin = StrokeJoin.round;
+        final boundary = wrinkles[wrinklesIndex].boundary;
+        final moveToCoordinate = boundary[0];
+
+        final width = size.width;
+        final height = size.height;
+
+        List<double> firstCoordinate = [
+          (1 - moveToCoordinate[1]) * width,
+          moveToCoordinate[0] * height,
+        ];
+
+        if (boundary.isNotEmpty) {
+          Path path = Path();
+          for (var boundaryIndex = 1;
+              boundaryIndex < boundary.length;
+              boundaryIndex++) {
+            path.moveTo(firstCoordinate[0], firstCoordinate[1]);
+
+            final nextCoordinate = [
+              (1 - boundary[boundaryIndex][1]) * width,
+              boundary[boundaryIndex][0] * height,
+            ];
+            path.lineTo(nextCoordinate[0], nextCoordinate[1]);
+
+            Get.log(
+                '$wrinklesIndex ${nextCoordinate[0]} ${nextCoordinate[1]} ini boundary index');
           }
           canvas.drawPath(path, paint);
         }
