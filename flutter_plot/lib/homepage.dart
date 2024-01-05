@@ -18,17 +18,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   ValueNotifier<ui.Image?> imageNotifier = ValueNotifier<ui.Image?>(null);
-
-  getImage() {
-    NetworkImage networkImage = const NetworkImage(
-        'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg');
-    ImageStream imageStream = networkImage.resolve(ImageConfiguration.empty);
-    ImageStreamListener imageStreamListener =
-        ImageStreamListener((imageInfo, synchronousCall) {
-      imageNotifier.value = imageInfo.image;
-    });
-    imageStream.addListener(imageStreamListener);
-  }
+  ui.Image? imageCanvas;
 
   Future<ui.Image> loadImage(String imageAssetPath) async {
     final ByteData data = await rootBundle.load(imageAssetPath);
@@ -37,8 +27,10 @@ class _MyHomePageState extends State<MyHomePage> {
       targetHeight: 300,
       targetWidth: 300,
     );
+
     var frame = await codec.getNextFrame();
-    Get.log('$frame frame');
+    Get.log('${frame.image} frame');
+    // imageCanvas = frame.image;
     return frame.image;
   }
 
@@ -49,8 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     widget.counterController.fetchData();
     widget.counterController.readJson();
-    getImage();
-    // loadImage('assets/photo.jpg');
+    loadImage('assets/photo.jpg');
   }
 
   @override
@@ -62,11 +53,12 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
           child: Container(
               color: Colors.grey.shade300,
-              child: CustomPaint(
-                painter: MasterPainter(
-                    annotations: widget.counterController.annotations),
-                size: const Size(300, 400),
-              ))),
+              child: Obx(() => CustomPaint(
+                    painter: MasterPainter(
+                        annotations: widget.counterController.annotations,
+                        image: imageCanvas),
+                    size: const Size(300, 400),
+                  )))),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.toNamed('/profile'),
         tooltip: 'Increment',
@@ -79,18 +71,21 @@ class _MyHomePageState extends State<MyHomePage> {
 class MasterPainter extends CustomPainter {
   // Constructor
   RxList<Coordinates>? annotations = <Coordinates>[].obs;
+  ui.Image? image;
   // final ValueNotifier<ui.Image?> imageInfoNotifier;
-  MasterPainter({this.annotations});
-  // MasterPainter({
-  //   required this.annotations,
-  //   // required this.imageInfoNotifier
-  // }) : super(
-  //       // repaint: imageInfoNotifier
-  //       );
+  MasterPainter({this.annotations, this.image}) {
+    Get.log('$annotations annotations');
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
     final annotationsData = annotations;
+    final imagePlot = image;
+    if (imagePlot != null) {
+      Paint paint = Paint();
+      canvas.drawImage(imagePlot, Offset.zero, paint);
+    }
+
     if (annotationsData != null && annotationsData.isNotEmpty) {
       // ui.Image? image = imageInfoNotifier.value;
       // Paint painting = Paint();
@@ -163,8 +158,8 @@ class MasterPainter extends CustomPainter {
             ];
             path.lineTo(nextCoordinate[0], nextCoordinate[1]);
 
-            // Get.log(
-            //     '$sebumIndex ${nextCoordinate[0]} ${nextCoordinate[1]} ini boundary index');
+            Get.log(
+                '$sebumIndex ${nextCoordinate[0]} ${nextCoordinate[1]} ini boundary index');
           }
           canvas.drawPath(path, paint);
         }
