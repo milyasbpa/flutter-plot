@@ -92,7 +92,7 @@ class MasterPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final annotationsData = controller.annotations;
-    Get.log('${controller.annotations}');
+
     final imagePlot = image;
     if (imagePlot != null) {
       Paint paint = Paint();
@@ -118,11 +118,10 @@ class MasterPainter extends CustomPainter {
         ];
         Path path = Path();
         if (boundary.isNotEmpty) {
+          path.moveTo(firstCoordinate[0], firstCoordinate[1]);
           for (var boundaryIndex = 1;
               boundaryIndex < boundary.length;
               boundaryIndex++) {
-            path.moveTo(firstCoordinate[0], firstCoordinate[1]);
-
             final nextCoordinate = [
               (1 - boundary[boundaryIndex][1]) * size.width,
               boundary[boundaryIndex][0] * size.height,
@@ -153,11 +152,10 @@ class MasterPainter extends CustomPainter {
         ];
         Path path = Path();
         if (boundary.isNotEmpty) {
+          path.moveTo(firstCoordinate[0], firstCoordinate[1]);
           for (var boundaryIndex = 1;
               boundaryIndex < boundary.length;
               boundaryIndex++) {
-            path.moveTo(firstCoordinate[0], firstCoordinate[1]);
-
             final nextCoordinate = [
               (1 - boundary[boundaryIndex][1]) * size.width,
               boundary[boundaryIndex][0] * size.height,
@@ -191,19 +189,18 @@ class MasterPainter extends CustomPainter {
 
         if (boundary.isNotEmpty) {
           Path path = Path();
+          path.moveTo(firstCoordinate[0], firstCoordinate[1]);
           for (var boundaryIndex = 1;
               boundaryIndex < boundary.length;
               boundaryIndex++) {
-            path.moveTo(firstCoordinate[0], firstCoordinate[1]);
-
             final nextCoordinate = [
               (1 - boundary[boundaryIndex][1]) * width,
               boundary[boundaryIndex][0] * height,
             ];
             path.lineTo(nextCoordinate[0], nextCoordinate[1]);
 
-            Get.log(
-                '$sebumIndex ${nextCoordinate[0]} ${nextCoordinate[1]} ini boundary index');
+            // Get.log(
+            //     '$sebumIndex ${nextCoordinate[0]} ${nextCoordinate[1]} ini boundary index');
           }
           canvas.drawPath(path, paint);
         }
@@ -215,10 +212,11 @@ class MasterPainter extends CustomPainter {
           wrinklesIndex < wrinkles.length;
           wrinklesIndex++) {
         Paint paint = Paint();
-        paint.strokeWidth = 0.1;
+        paint.strokeWidth = 1;
         paint.color = Colors.black;
         paint.style = PaintingStyle.stroke;
         paint.strokeJoin = StrokeJoin.round;
+        paint.strokeCap = StrokeCap.round;
         final boundary = wrinkles[wrinklesIndex].boundary;
         final moveToCoordinate = boundary[0];
 
@@ -232,19 +230,18 @@ class MasterPainter extends CustomPainter {
 
         if (boundary.isNotEmpty) {
           Path path = Path();
+          path.moveTo(firstCoordinate[0], firstCoordinate[1]);
           for (var boundaryIndex = 1;
               boundaryIndex < boundary.length;
               boundaryIndex++) {
-            path.moveTo(firstCoordinate[0], firstCoordinate[1]);
-
             final nextCoordinate = [
               (1 - boundary[boundaryIndex][1]) * width,
               boundary[boundaryIndex][0] * height,
             ];
             path.lineTo(nextCoordinate[0], nextCoordinate[1]);
 
-            Get.log(
-                '$wrinklesIndex ${nextCoordinate[0]} ${nextCoordinate[1]} ini boundary index');
+            // Get.log(
+            //     '$wrinklesIndex ${nextCoordinate[0]} ${nextCoordinate[1]} ini boundary index');
           }
           canvas.drawPath(path, paint);
         }
