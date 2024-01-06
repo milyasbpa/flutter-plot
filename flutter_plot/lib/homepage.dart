@@ -4,6 +4,7 @@ import 'package:flutter_plot/coordinate.model.dart';
 import 'package:flutter_plot/counter.dart';
 import 'package:get/get.dart';
 import 'dart:ui' as ui;
+import 'dart:math';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -245,6 +246,35 @@ class MasterPainter extends CustomPainter {
           }
           canvas.drawPath(path, paint);
         }
+      }
+
+      // pores
+      final pores = annotationsData[0].pores;
+      for (var poresIndex = 0; poresIndex < pores.length; poresIndex++) {
+        Paint paint = Paint();
+        paint.strokeWidth = 1;
+        paint.color = Colors.purple;
+        paint.style = PaintingStyle.stroke;
+        paint.strokeJoin = StrokeJoin.round;
+        paint.strokeCap = StrokeCap.round;
+
+        final width = size.width;
+        final height = size.height;
+
+        List<double> xCoordinates =
+            pores[poresIndex].boundary.map((pore) => pore[0] * width).toList();
+        List<double> yCoordinates =
+            pores[poresIndex].boundary.map((pore) => pore[1] * height).toList();
+        double xMin = xCoordinates.reduce(min);
+        double xMax = xCoordinates.reduce(max);
+        double yMin = yCoordinates.reduce(min);
+        double yMax = yCoordinates.reduce(max);
+        double poreWidth = xMax - xMin;
+        double poreHeight = yMax - yMin;
+
+        final Offset center = Offset((xMin + xMax) / 2, (yMin + yMax) / 2);
+        double radius = [poreWidth, poreHeight].reduce(min) / 2;
+        canvas.drawCircle(center, radius, paint);
       }
     }
   }
