@@ -23,28 +23,14 @@ class _ProfilePageState extends State<ProfilePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              text,
-            ),
-            TextButton(
-              onPressed: () => Get.toNamed('/'),
-              child: const Text(
-                "Visit Home",
-                style: TextStyle(fontSize: 25),
-              ),
-            ),
-            Obx(() => Text(
-                  '${controller.counter}',
-                  style: Theme.of(context).textTheme.headline4,
-                )),
-          ],
+        child: Container(
+          color: Colors.red,
+          width: double.infinity,
+          height: 200,
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: controller.increment,
+        onPressed: () => Get.toNamed('/home'),
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
