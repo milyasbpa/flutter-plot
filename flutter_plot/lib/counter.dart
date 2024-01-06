@@ -38,8 +38,8 @@ class CounterController extends GetxController {
   Future<void> readJson() async {
     try {
       final response = await apiService.readJson();
+
       List<Coordinates> coordinates = coordinatesFromJson(response);
-      Get.log('$coordinates coordinates');
       for (var i = 0; i < coordinates.length; i++) {
         annotations.add(coordinates[i]);
       }

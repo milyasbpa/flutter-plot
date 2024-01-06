@@ -91,8 +91,8 @@ class MasterPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // final annotationsData = annotations;
     final annotationsData = controller.annotations;
+    Get.log('${controller.annotations}');
     final imagePlot = image;
     if (imagePlot != null) {
       Paint paint = Paint();
@@ -215,7 +215,7 @@ class MasterPainter extends CustomPainter {
           wrinklesIndex < wrinkles.length;
           wrinklesIndex++) {
         Paint paint = Paint();
-        paint.strokeWidth = 1;
+        paint.strokeWidth = 0.1;
         paint.color = Colors.black;
         paint.style = PaintingStyle.stroke;
         paint.strokeJoin = StrokeJoin.round;

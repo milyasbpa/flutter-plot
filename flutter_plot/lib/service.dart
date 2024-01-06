@@ -9,6 +9,6 @@ class ApiService extends GetConnect {
   }
 
   Future<dynamic> readJson() async {
-    return await rootBundle.loadString('assets/json/sample_coordinate.json');
+    return await rootBundle.loadString('assets/json/sample_coordinate2.json');
   }
 }
