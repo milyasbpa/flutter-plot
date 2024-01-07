@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_plot/coordinate.model.dart';
-import 'package:flutter_plot/counter.dart';
+import 'package:flutter_plot/annotations.dart';
 import 'package:get/get.dart';
 import 'dart:ui' as ui;
 import 'dart:math';
@@ -9,7 +9,8 @@ import 'dart:math';
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
 
-  final CounterController counterController = Get.put(CounterController());
+  final AnnotationsController annotationsController =
+      Get.put(AnnotationsController());
 
   final String title;
 
@@ -41,8 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    widget.counterController.fetchData();
-    widget.counterController.readJson();
+    widget.annotationsController.fetchCoordinates();
   }
 
   @override
@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: CustomPaint(
                             painter: MasterPainter(
                                 image: snapshot.data!,
-                                controller: widget.counterController),
+                                controller: widget.annotationsController),
                             size: Size(width, height),
                           ))),
                   floatingActionButton: FloatingActionButton(
@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class MasterPainter extends CustomPainter {
-  CounterController controller;
+  AnnotationsController controller;
   ui.Image? image;
   MasterPainter({this.image, required this.controller});
 
@@ -113,19 +113,32 @@ class MasterPainter extends CustomPainter {
         final boundary = inflammations[inflammationsIndex].boundary;
         final moveToCoordinate = boundary[0];
 
+        // NOTES: rotation 90 deg
+        // List<double> firstCoordinate = [
+        //   (1 - moveToCoordinate[1]) * size.width,
+        //   moveToCoordinate[0] * size.height,
+        // ];
+        // NOTES: no rotation
         List<double> firstCoordinate = [
-          (1 - moveToCoordinate[1]) * size.width,
-          moveToCoordinate[0] * size.height,
+          moveToCoordinate[0] * size.width,
+          moveToCoordinate[1] * size.height,
         ];
+
         Path path = Path();
         if (boundary.isNotEmpty) {
           path.moveTo(firstCoordinate[0], firstCoordinate[1]);
           for (var boundaryIndex = 1;
               boundaryIndex < boundary.length;
               boundaryIndex++) {
+            // NOTES: rotation 90 deg
+            // final nextCoordinate = [
+            //   (1 - boundary[boundaryIndex][1]) * size.width,
+            //   boundary[boundaryIndex][0] * size.height,
+            // ];
+            // NOTES: no rotation
             final nextCoordinate = [
-              (1 - boundary[boundaryIndex][1]) * size.width,
-              boundary[boundaryIndex][0] * size.height,
+              boundary[boundaryIndex][0] * size.width,
+              boundary[boundaryIndex][1] * size.height,
             ];
             path.lineTo(nextCoordinate[0], nextCoordinate[1]);
 
@@ -147,9 +160,15 @@ class MasterPainter extends CustomPainter {
         final boundary = pigmentations[pigmentationIndex].boundary;
         final moveToCoordinate = boundary[0];
 
+        // NOTES: rotation 90 deg
+        // List<double> firstCoordinate = [
+        //   (1 - moveToCoordinate[1]) * size.width,
+        //   moveToCoordinate[0] * size.height,
+        // ];
+        // NOTES: no rotation
         List<double> firstCoordinate = [
-          (1 - moveToCoordinate[1]) * size.width,
-          moveToCoordinate[0] * size.height,
+          moveToCoordinate[0] * size.width,
+          moveToCoordinate[1] * size.height,
         ];
         Path path = Path();
         if (boundary.isNotEmpty) {
@@ -157,9 +176,15 @@ class MasterPainter extends CustomPainter {
           for (var boundaryIndex = 1;
               boundaryIndex < boundary.length;
               boundaryIndex++) {
+            // NOTES: rotation 90 deg
+            // final nextCoordinate = [
+            //   (1 - boundary[boundaryIndex][1]) * size.width,
+            //   boundary[boundaryIndex][0] * size.height,
+            // ];
+            // NOTES: no rotation
             final nextCoordinate = [
-              (1 - boundary[boundaryIndex][1]) * size.width,
-              boundary[boundaryIndex][0] * size.height,
+              boundary[boundaryIndex][0] * size.width,
+              boundary[boundaryIndex][1] * size.height,
             ];
             path.lineTo(nextCoordinate[0], nextCoordinate[1]);
 
@@ -180,12 +205,15 @@ class MasterPainter extends CustomPainter {
         final boundary = sebums[sebumIndex].boundary;
         final moveToCoordinate = boundary[0];
 
-        final width = size.width;
-        final height = size.height;
-
+        // NOTES: rotation 90 deg
+        // List<double> firstCoordinate = [
+        //   (1 - moveToCoordinate[1]) * size.width,
+        //   moveToCoordinate[0] * size.height,
+        // ];
+        // NOTES: no rotation
         List<double> firstCoordinate = [
-          (1 - moveToCoordinate[1]) * width,
-          moveToCoordinate[0] * height,
+          moveToCoordinate[0] * size.width,
+          moveToCoordinate[1] * size.height,
         ];
 
         if (boundary.isNotEmpty) {
@@ -194,9 +222,15 @@ class MasterPainter extends CustomPainter {
           for (var boundaryIndex = 1;
               boundaryIndex < boundary.length;
               boundaryIndex++) {
+            // NOTES: rotation 90 deg
+            // final nextCoordinate = [
+            //   (1 - boundary[boundaryIndex][1]) * size.width,
+            //   boundary[boundaryIndex][0] * size.height,
+            // ];
+            // NOTES: no rotation
             final nextCoordinate = [
-              (1 - boundary[boundaryIndex][1]) * width,
-              boundary[boundaryIndex][0] * height,
+              boundary[boundaryIndex][0] * size.width,
+              boundary[boundaryIndex][1] * size.height,
             ];
             path.lineTo(nextCoordinate[0], nextCoordinate[1]);
 
@@ -221,23 +255,31 @@ class MasterPainter extends CustomPainter {
         final boundary = wrinkles[wrinklesIndex].boundary;
         final moveToCoordinate = boundary[0];
 
-        final width = size.width;
-        final height = size.height;
-
+        // NOTES: rotation 90 deg
+        // List<double> firstCoordinate = [
+        //   (1 - moveToCoordinate[1]) * size.width,
+        //   moveToCoordinate[0] * size.height,
+        // ];
+        // NOTES: no rotation
         List<double> firstCoordinate = [
-          (1 - moveToCoordinate[1]) * width,
-          moveToCoordinate[0] * height,
+          moveToCoordinate[0] * size.width,
+          moveToCoordinate[1] * size.height,
         ];
-
         if (boundary.isNotEmpty) {
           Path path = Path();
           path.moveTo(firstCoordinate[0], firstCoordinate[1]);
           for (var boundaryIndex = 1;
               boundaryIndex < boundary.length;
               boundaryIndex++) {
+            // NOTES: rotation 90 deg
+            // final nextCoordinate = [
+            //   (1 - boundary[boundaryIndex][1]) * size.width,
+            //   boundary[boundaryIndex][0] * size.height,
+            // ];
+            // NOTES: no rotation
             final nextCoordinate = [
-              (1 - boundary[boundaryIndex][1]) * width,
-              boundary[boundaryIndex][0] * height,
+              boundary[boundaryIndex][0] * size.width,
+              boundary[boundaryIndex][1] * size.height,
             ];
             path.lineTo(nextCoordinate[0], nextCoordinate[1]);
 
