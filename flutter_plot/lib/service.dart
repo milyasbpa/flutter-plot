@@ -9,6 +9,6 @@ class ApiService extends GetConnect {
   }
 
   Future<dynamic> readJson() async {
-    return await rootBundle.loadString('assets/annotations/6.json');
+    return await rootBundle.loadString('assets/annotations/1.json');
   }
 }
