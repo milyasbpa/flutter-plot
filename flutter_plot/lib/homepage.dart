@@ -108,7 +108,7 @@ class MasterPainter extends CustomPainter {
           inflammationsIndex++) {
         Paint paint = Paint();
         paint.strokeWidth = 1;
-        paint.color = Colors.red;
+        paint.color = const Color.fromRGBO(118, 224, 194, 1);
         paint.style = PaintingStyle.stroke;
         final boundary = inflammations[inflammationsIndex].boundary;
         final moveToCoordinate = boundary[0];
@@ -155,7 +155,7 @@ class MasterPainter extends CustomPainter {
           pigmentationIndex++) {
         Paint paint = Paint();
         paint.strokeWidth = 1;
-        paint.color = Colors.red;
+        paint.color = const Color.fromRGBO(198, 0, 0, 1);
         paint.style = PaintingStyle.stroke;
         final boundary = pigmentations[pigmentationIndex].boundary;
         final moveToCoordinate = boundary[0];
@@ -199,7 +199,7 @@ class MasterPainter extends CustomPainter {
       for (var sebumIndex = 0; sebumIndex < sebums.length; sebumIndex++) {
         Paint paint = Paint();
         paint.strokeWidth = 1;
-        paint.color = Colors.yellow;
+        paint.color = const Color.fromRGBO(167, 207, 255, 1);
         paint.style = PaintingStyle.stroke;
         paint.strokeJoin = StrokeJoin.round;
         final boundary = sebums[sebumIndex].boundary;
@@ -248,7 +248,7 @@ class MasterPainter extends CustomPainter {
           wrinklesIndex++) {
         Paint paint = Paint();
         paint.strokeWidth = 1;
-        paint.color = Colors.black;
+        paint.color = const Color.fromRGBO(239, 215, 0, 1);
         paint.style = PaintingStyle.stroke;
         paint.strokeJoin = StrokeJoin.round;
         paint.strokeCap = StrokeCap.round;
@@ -295,7 +295,7 @@ class MasterPainter extends CustomPainter {
       for (var poresIndex = 0; poresIndex < pores.length; poresIndex++) {
         Paint paint = Paint();
         paint.strokeWidth = 1;
-        paint.color = Colors.purple;
+        paint.color = const Color.fromRGBO(0, 220, 128, 1);
         paint.style = PaintingStyle.stroke;
         paint.strokeJoin = StrokeJoin.round;
         paint.strokeCap = StrokeCap.round;
