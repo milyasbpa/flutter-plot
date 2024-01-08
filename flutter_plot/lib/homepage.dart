@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
     double height = width / 3 * 4;
 
     return FutureBuilder(
-        future: loadImage('assets/photo.jpg', width, height),
+        future: loadImage('assets/samples/6.jpg', width, height),
         builder: (BuildContext context, AsyncSnapshot<ui.Image> snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:

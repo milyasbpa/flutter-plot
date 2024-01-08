@@ -61,8 +61,15 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/samples/
     - assets/json/sample_coordinate.json
     - assets/json/sample_coordinate2.json
+    - assets/annotations/1.json
+    - assets/annotations/2.json
+    - assets/annotations/3.json
+    - assets/annotations/4.json
+    - assets/annotations/5.json
+    - assets/annotations/6.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
